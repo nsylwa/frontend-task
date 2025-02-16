@@ -1,50 +1,43 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Тестовое задание: Three.js + React
 
-Currently, two official plugins are available:
+Установка и запуск проекта
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+npm install
+npm run dev
 
-## Expanding the ESLint configuration
+Задачи
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Реализация виджета для отображения иерархии объектов THREE.Object3D
 
-- Configure the top-level `parserOptions` property like this:
+Место в коде
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Файл App.tsx, компонент <ViewerComponent>.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Требования к реализации
+• Виджет должен отображать иерархию объектов, содержащихся в viewer.model.
+• При клике на объект в виджете он должен выделяться во вьювере.
+• Детали реализации хайлайта на собственное усмотрение
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+2. Исправление бага с resize() и dispose()
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Место в коде
+
+Файл Viewer.ts
+
+Описание проблемы
+• Включенный React.StrictMode приводит к двойному монтированию компонентов в development-режиме, из-за чего Viewer создается несколько раз.
+• В результате может быть добавлено несколько обработчиков события resize.
+• В методе dispose() необходимо корректно освобождать все обработчики
+
+Требования к исправлению
+• Выключение StrictMode не будет считаться за фикс бага.
+• Убедиться, что resize() вызывается только для актуального экземляра вьювера
+
+Ожидаемые результаты
+• Реализованный виджет с корректным отображением иерархии объектов.
+• Исправленный баг с resize(), обеспечивающий стабильную работу приложения.
+
+Формат сдачи
+• Исходный код с коммитами.
