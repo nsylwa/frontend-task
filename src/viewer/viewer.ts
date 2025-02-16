@@ -26,7 +26,7 @@ class Viewer {
   constructor(container: HTMLDivElement) {
     this.id = uuid.v4();
 
-    console.log("init viewer", this.id);
+    // console.log("init viewer", this.id);
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#333333");
@@ -71,7 +71,7 @@ class Viewer {
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
     this.scene.add(ambientLight);
 
-    window.addEventListener("resize", () => this.resize());
+    window.addEventListener("resize", this.resize);
 
     this.loadModel().then((object3d) => {
       if (object3d) {
@@ -92,15 +92,13 @@ class Viewer {
     this._render();
   }
 
-  private resize() {
-    // TODO Найди и устрани баг связанный с resize и dispose
-    // console.log(this.id);
+  private resize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this._renderer.setSize(window.innerWidth, window.innerHeight);
     this._renderNeeded = true;
-    this._render();
-  }
+    this.updateViewer();
+  };
 
   private _render = () => {
     const clockDelta = this._clock.getDelta();
@@ -142,8 +140,8 @@ class Viewer {
   }
 
   public dispose() {
-    console.log("dispose viewer", this.id);
-    window.removeEventListener("resize", () => this.resize());
+    // console.log("dispose viewer", this.id);
+    window.removeEventListener("resize", this.resize);
     this._renderer.domElement.remove();
     this._renderer.dispose();
     this._cameraControl.dispose();
